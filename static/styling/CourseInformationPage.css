@@ -1,0 +1,78 @@
+  body.course-page {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    /* overflow:auto; */
+    z-index: 1;
+  }
+
+  .course-page {
+    max-width: 800px;
+    width:800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(189, 69, 32);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position:relative;
+    top: 80px;
+    z-index: 1;
+  }
+
+  .heading-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  h1.course-page {
+    text-align: center;
+    color: #333;
+  }
+  
+  .objective-section {
+    margin-top: 20px;
+    z-index: 1;
+  }
+  
+  .objective {
+    margin-bottom: 20px;
+  }
+  
+  h2.course-page {
+    color: #007bff;
+  }
+  
+  p.course-page {
+    color: #555;
+    line-height: 1.6;
+  }
+  
+  .detail-card {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: white;
+    border-left: 4px solid #007bff;
+    border-radius: 4px;
+    z-index: 1;
+  }
+  
+  .detail-card h3 {
+    margin: 0;
+    color: #333;
+  }
+  
+  .detail-card p {
+    margin: 5px 0 0;
+  }
+
+  .dropDown {
+    display: none;
+    margin: 10px 0;
+    padding: 10px;
+  }
+  .dropDown.show {
+    display: block;
+    color:black;
+  }
