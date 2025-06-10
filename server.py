@@ -291,7 +291,8 @@ def saveEdits():
             contentType, content = edit.split("||| ")
             # ignoring the content if it is a title for now
             if contentType == "Title":
-                pass
+                # We need to update the title in a different table
+                print("Title: ", content)
             else:
                 # access the category according to the database
                 currCategory = categoryCopy[contentType]
