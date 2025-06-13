@@ -18,11 +18,12 @@
     let assessmentsValue = unitData[3].split("||| ")[1]; // Done
     let content = unitData[4].split("||| ")[1];
     let differentiation = unitData[5].split("||| ")[1];
-    let eAndI = unitData[6].split("||| ")[1];
-    let essentialQuestionValue = unitData[7].split("||| ")[1]; // Done
-    let activities = unitData[8].split("||| ")[1];
-    let resources = unitData[9].split("||| ")[1]; // Done
-    let dataList = {title, goalsValue, assessmentsValue, content, differentiation, eAndI, essentialQuestionValue, activities, resources};
+    let eAndI = unitData[7].split("||| ")[1];
+    let essentialQuestionValue = unitData[8].split("||| ")[1]; // Done
+    let activities = unitData[9].split("||| ")[1];
+    let resources = unitData[10].split("||| ")[1]; // Done
+    let dataList = {title, goalsValue, assessmentsValue, content, differentiation, essentialQuestionValue, activities, resources, eAndI};
+
 </script>
 <body>
     {% include "NavigationBar.html" %}

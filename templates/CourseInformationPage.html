@@ -27,7 +27,7 @@
       {
         teacher: {{ courseInfo.Teacher | tojson | safe }},
         ids: {{ courseInfo.UnitIds | tojson | safe }}.split(", "),
-        names: {{ courseInfo.UnitNames | tojson | safe }}.split(", ")
+        names: {{ courseInfo.UnitNames | striptags | tojson | safe }}.split(", ")
       }
       // Add more objective objects if needed.
     ];

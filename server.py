@@ -293,18 +293,22 @@ def saveEdits():
             if contentType == "Title":
                 # We need to update the title in a different table
                 print("Title: ", content)
+                statement = """UPDATE Unit SET unitName = %s WHERE unitID = %s"""
+                cursor.execute(statement, (content, unitID))
+                print("Rowcount: ", cursor.rowcount)
             else:
                 # access the category according to the database
                 currCategory = categoryCopy[contentType]
+                # print("Content:", content, "UnitID:", unitID, "CategoryID:", currCategory)
                 # TODO: Make it so " in content does not interfere with the sql statement
                 statement = """UPDATE unitText SET text = %s WHERE unitID = %s AND categoryTypeID = %s"""
                 cursor.execute(statement, (content, unitID, currCategory))
+                print("Rowcount: ", cursor.rowcount)
                 if (cursor.rowcount > 13):
-                    print("Rowcount: ", cursor.rowcount)
                     safe = False
     if safe:
         dataBase.commit()
-        
+
     return render_template("Home.html")
 
 # Used for the edit course page to edit the courses
