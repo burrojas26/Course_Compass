@@ -32,12 +32,13 @@
         <div class="buttons-header">
             <button id="toggle-edit" class="toggle-button" aria-label="Switch to edit mode">Edit Mode</button>
             <button id="save" class="toggle-button" aria-label="Save">Save</button>
+            <button id="exit" class="toggle-button" aria-label="Exit">Exit</button>
             <form id="submit-form" action="/saveEdits" method="POST">
                 <input type="hidden" id="submit-data" name="editData">
             </form>
 
         </div>
-
+        <!-- TODO: Add more info about the unit into the view (content, differentiation, etc.) -->
         <!-- Unit Title 
         <div class="field-container">
             <label for="title">Unit:</label>
@@ -97,6 +98,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             const toggleButton = document.getElementById("toggle-edit");
             const saveButton = document.getElementById("save");
+            const exitButton = document.getElementById("exit");
             document.getElementById("title-text").innerHTML = titleValue;
             document.getElementById("title-input").value = titleValue;
             document.getElementById("goals-text").innerHTML = goalsValue;
@@ -110,7 +112,7 @@
             document.getElementById("essential-question-text").innerHTML = essentialQuestionValue;
             document.getElementById("essential-question-input").value = essentialQuestionValue;
 
-            const isEditing = { value: false };
+            const isEditing = { value: true };
             let titleEditor = null;
             let goalsEditor = null;
             let assessmentsEditor = null;
@@ -124,33 +126,54 @@
             });
 
             saveButton.addEventListener("click", function () {
+                isEditing.value = false; // Switch to preview mode before saving
+                updateView(); // Update the view to show the saved changes
                 submitData(compareData());
             });
 
+            // TODO: This button should eventually be a "view page" button that takes you back to the page with the unit information
+            // In order to do this we need to send the site data back to the previous page so that it doesn't error out and it knows what page to go to
+            // For now, it will just exit to the browse page
+            // Another TODO: Save site data so that the page will not break when being refreshed or clicking the back arrow
+            exitButton.addEventListener("click", function () {
+                let initialEditingValue = isEditing.value;
+                    isEditing.value = false; // Switch to preview mode before exiting
+                    updateView(); // Update the view to show the saved changes
+                let unsavedData = compareData();
+                if (unsavedData.trim() !== "UnitID||| " + unitID + "@#|") {
+                    if (confirm("You have unsaved changes. Are you sure you want to exit without saving?")) {
+                        window.location.href = "/browse";
+                    } 
+                } else {
+                    window.location.href = "/browse";
+                }
+                isEditing.value = initialEditingValue; // Restore the editing state
+                updateView(); // Update the view to reflect the restored state
+            });
             function compareData() {
-                let newTitle = document.getElementById("title-text").innerHTML;
+                let newTitle = document.getElementById("title-text").textContent;
                 let newResources = document.getElementById("resources-text").innerHTML;
                 let newGoals = document.getElementById("goals-text").innerHTML; // Done
                 let newAssessments = document.getElementById("assessments-text").innerHTML; // Done
                 let newActivities = document.getElementById("activities-text").innerHTML;
                 let newEQ = document.getElementById("essential-question-text").innerHTML;
                 let buildStr = "UnitID||| " + unitID + "@#|";
-                if (titleValue != newTitle) {
+                if (titleValue.trim() != newTitle.trim()) {
                     buildStr += "Title||| " + newTitle + "@#|";
                 }
-                if (resources != newResources) {
+                if (resources.trim() != newResources.trim()) {
                     buildStr += "Resources||| " + newResources + "@#|";
                 }
-                if (goalsValue != newGoals) {
+                if (goalsValue.trim() != newGoals.trim()) {
                     buildStr += "21st Century Learning Goals||| " + newGoals + "@#|";
                 }
-                if (assessmentsValue != newAssessments) {
+                if (assessmentsValue.trim() != newAssessments.trim()) {
                     buildStr += "Assessment||| " + newAssessments + "@#|";
                 }
-                if (essentialQuestionValue != newEQ) {
+                if (essentialQuestionValue.trim() != newEQ.trim()) {
                     buildStr += "Essential Questions||| " + newEQ + "@#|";
                 }
-                if (activities != newActivities) {
+                if (activities.trim() != newActivities.trim()) {
                     buildStr += "Learning Activities||| " + newActivities + "@#|";
 
                 }
@@ -184,8 +207,11 @@
                     }
                 });
 
-                toggleButton.textContent = isEditing.value ? "View Mode" : "Edit Mode";
-                toggleButton.setAttribute("aria-label", isEditing.value ? "Switch to view mode" : "Switch to edit mode");
+                toggleButton.textContent = isEditing.value ? "Preview" : "Edit";
+                toggleButton.setAttribute("aria-label", isEditing.value ? "Switch to preview" : "Switch to edit mode");
+
+                // saveButton.style.display = isEditing.value ? "inline-block" : "none";       // Show save button only in edit mode
+
 
                 if (isEditing.value) {
                     // Initialize editors if they haven't been created yet.
